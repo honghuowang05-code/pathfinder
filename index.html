@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d303c" />
+  <meta name="description" content="Pathfinder - Offline visitor management and safety prototype for Lama Lama Country" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Pathfinder | Lama Lama Country</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand-wrap">
+    <div class="brand-mark">P</div>
+    <div>
+      <div class="eyebrow">PATHFINDER · STUDENT PROTOTYPE</div>
+      <h1>Pathfinder</h1>
+      <p>Offline visitor management and safety for Lama Lama Country</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <span id="networkBadge" class="badge online">ONLINE</span>
+    <span id="offlineReadyBadge" class="badge offline-not-ready">OFFLINE NOT READY</span>
+    <button id="simpleModeBtn" class="ghost-btn advanced-header-control">Simple Mode</button>
+    <select id="roleSelector" class="role-selector advanced-header-control" aria-label="Prototype role">
+          <option value="Visitor">Visitor</option>
+          <option value="Ranger" selected>Ranger</option>
+          <option value="Cultural Approver">Cultural Approver</option>
+          <option value="YAC Administrator">YAC Administrator</option>
+        </select>
+        <button id="sourcesToggle" class="ghost-btn advanced-header-control">Sources / About</button>
+    <button id="roleToggle" class="ghost-btn advanced-header-control">Switch to Ranger</button>
+  </div>
+</header>
+
+<main class="shell">
+  <noscript>
+    <div style="padding:14px 18px;background:#fee2e2;color:#7f1d1d;border-radius:12px;margin-bottom:16px;">
+      JavaScript is disabled. Pathfinder interactive controls require JavaScript.
+    </div>
+  </noscript>
+
+  <section id="simpleApp" class="simple-app">
+    <div class="simple-topline">
+      <div>
+        <span class="simple-eyebrow">VISITOR SAFETY MODE</span>
+        <h2>What do you need?</h2>
+        <p>Essential actions only. Designed for fast use when travelling or under stress.</p>
+      </div>
+      <button id="advancedModeBtn" class="advanced-mode-link" type="button">Advanced Mode</button>
+    </div>
+
+    <button id="simpleEmergencyBtn" class="simple-emergency-btn" type="button">
+      <span class="simple-icon">!</span>
+      <span>
+        <strong>EMERGENCY</strong>
+        <small>Location, emergency steps and contact options</small>
+      </span>
+    </button>
+
+    <div class="simple-action-grid">
+      <button id="simpleMapBtn" class="simple-action-card" type="button">
+        <span class="simple-action-icon">⌖</span>
+        <strong>Map</strong>
+        <small>Open available offline map</small>
+      </button>
+
+      <button id="simpleTripBtn" class="simple-action-card" type="button">
+        <span class="simple-action-icon">✓</span>
+        <strong>My Trip</strong>
+        <small>Destination and return information</small>
+      </button>
+
+      <button id="simpleSafetyBtn" class="simple-action-card" type="button">
+        <span class="simple-action-icon">i</span>
+        <strong>Safety Info</strong>
+        <small>Essential visitor rules and warnings</small>
+      </button>
+
+      <button id="simpleCheckBtn" class="simple-action-card" type="button">
+        <span class="simple-action-icon">↔</span>
+        <strong>Check In / Out</strong>
+        <small>Quick trip status action</small>
+      </button>
+    </div>
+
+    <div class="simple-offline-strip">
+      <span id="simpleNetworkText">Network status checking…</span>
+      <span>Pathfinder keeps core safety information available offline after caching.</span>
+    </div>
+  </section>
+
+  <section id="simplePanel" class="simple-panel hidden" aria-live="polite">
+    <div class="simple-panel-bar">
+      <button id="simpleBackBtn" class="simple-back-btn" type="button">← Back</button>
+      <span id="simplePanelTitle">Pathfinder</span>
+      <button id="globalEmergencyBtn" class="global-emergency-btn" type="button">Emergency</button>
+      <button id="simplePanelAdvancedBtn" class="advanced-mode-link" type="button">Advanced Mode</button>
+    </div>
+    <div id="simplePanelContent" class="simple-panel-content"></div>
+  </section>
+
+  
+  <section id="advancedModeHub" class="advanced-content card section-card">
+    <div class="section-heading">
+      <div>
+        <span class="kicker">ADVANCED MODE</span>
+        <h2>Choose workspace</h2>
+      </div>
+    </div>
+    <div class="workspace-grid">
+      <button id="openVisitorWorkspaceBtn" class="workspace-card" type="button">
+        <strong>Visitor Workspace</strong>
+        <span>Trip planning, Trip Pack, rules and visitor prototype functions.</span>
+      </button>
+      <button id="openRangerWorkspaceBtn" class="workspace-card protected" type="button">
+        <strong>Ranger Workspace</strong>
+        <span>Protected staff area for visitor management and overdue response.</span>
+      </button>
+    </div>
+  </section>
+
+<section class="advanced-content source-legend">
+    <span class="legend official-label">OFFICIAL PUBLIC INFORMATION</span>
+    <span class="legend proposed-label">PATHFINDER PROPOSED FEATURE</span>
+    <span class="legend missing-label">NO PUBLIC RESOURCE FOUND</span>
+  </section>
+
+  <section class="advanced-content card official-photo-card">
+    <img
+      class="official-photo"
+      src="https://www.lamalama.org.au/wp-content/uploads/2016/08/Visiting-banner.png"
+      alt="Lama Lama Country coastal landscape published on the YAC Visiting page"
+    />
+    <div class="official-photo-caption">
+      <span class="legend official-label">OFFICIAL PUBLIC IMAGE</span>
+      <strong>Lama Lama Country visitor context</strong>
+      <span>Source: Yintjingga Aboriginal Corporation · Visiting Lama Lama Country.</span>
+    </div>
+  </section>
+
+  <section class="advanced-content notice cultural">
+    <strong>Source rule for this prototype</strong>
+    Public visitor and governance information below is taken from the Yintjingga Aboriginal Corporation (YAC) website.
+    Where no public source was found, the page says <b>“No public resource found”</b> rather than inventing data.
+    Pathfinder system functions are student design proposals, not existing YAC services.
+  </section>
+
+  <section id="visitorApp" class="advanced-content app-view">
+    <div class="hero-grid">
+      <section class="card hero-card">
+        <span class="kicker">VISITOR INFORMATION</span>
+        <h2>Welcome to Lama Lama Country</h2>
+        <p>
+          Lama Lama People are the Traditional Owners of lands and waters around Princess Charlotte Bay in eastern Cape York Peninsula.
+          YAC states that visitors can take part in activities including bird watching, fishing, boating, tours and camping.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-btn" data-scroll="officialInfoSection">Official visitor information</button>
+          <button class="secondary-btn" data-scroll="planSection">Pathfinder trip prototype</button>
+        </div>
+        <div class="source-note">Source: YAC Home and Visiting pages.</div>
+      </section>
+
+      <section class="card status-card">
+        <div class="card-title-row">
+          <div>
+            <span class="kicker">CURRENT ACCESS STATUS</span>
+            <h3 id="publicAccessTitle">Lama Lama Country</h3>
+          </div>
+          <span class="status-chip muted">NOT AVAILABLE</span>
+        </div>
+        <p>
+          The YAC pages reviewed do not publish a live Open / Caution / Closed status feed.
+          Visitors should confirm current conditions with the Lama Lama Ranger Base before travel.
+        </p>
+        <div class="contact-strip">
+          <strong>Port Stewart Ranger Base</strong>
+          <span>Attended daily 8:00 am–4:30 pm</span>
+          <span>Tel: 07 4060 3369</span>
+        </div>
+        <div class="source-note">Source: YAC Visiting and Contact pages.</div>
+      </section>
+    </div>
+
+    <section id="officialInfoSection" class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">OFFICIAL YAC INFORMATION</span>
+          <h2>Visitor check-in, places and activities</h2>
+        </div>
+        <a class="source-link" href="https://www.lamalama.org.au/visiting/" target="_blank" rel="noopener">Open YAC Visiting page</a>
+      </div>
+
+      <div class="official-grid">
+        <div class="info-block">
+          <h3>Check-in</h3>
+          <p>All visitors should first check in at the Lama Lama Ranger Base at Port Stewart.</p>
+          <p>The base is attended daily from <strong>8:00 am to 4:30 pm</strong>.</p>
+          <p>Visitors to Silver Plains can also check in at the Homestead.</p>
+        </div>
+        <div class="info-block">
+          <h3>Published campgrounds</h3>
+          <p><strong>Warokutal (Safari Camp – Port Stewart)</strong>: non-potable water, toilets, pet friendly, campervans and trailers welcome.</p>
+          <p><strong>Maramba (Silver Plains Station)</strong>: bush camping, 4WD access and access to boat ramps.</p>
+        </div>
+        <div class="info-block">
+          <h3>Published activities</h3>
+          <p>Bird watching, fishing, boating, tours and camping.</p>
+          <p>Rangers may be able to accommodate specialised small-group tours by prior arrangement.</p>
+        </div>
+        <div class="info-block warning-block">
+          <h3>Official warning</h3>
+          <p><strong>Estuarine crocodiles inhabit all waters in Lama Lama Country.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">OFFICIAL PUBLIC IMAGE</span>
+          <h2>Remote road access context</h2>
+        </div>
+        <a class="source-link" href="https://www.lamalama.org.au/visiting/" target="_blank" rel="noopener">Open YAC Visiting page</a>
+      </div>
+      <img
+        class="context-photo"
+        src="https://www.lamalama.org.au/wp-content/uploads/2016/08/Visiting-banner-3-Photo-Annette-Ruzicka.png"
+        alt="Visitors travelling on Lama Lama Country, photograph credited to Annette Ruzicka on the YAC website"
+      />
+      <p class="small-note">
+        Photograph published by YAC and credited on the website to Annette Ruzicka. It provides visual context for the remote-access problem addressed by Pathfinder.
+      </p>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">OFFICIAL PUBLIC MAP</span>
+          <h2>Lama Lama Country map</h2>
+        </div>
+        <a class="source-link" href="https://www.lamalama.org.au/country/" target="_blank" rel="noopener">Open YAC Aakurru page</a>
+      </div>
+      <div class="official-map-wrap">
+        <img
+          class="official-map"
+          src="assets/Lama-Lama-Map-2014-1.jpg"
+          alt="Official Lama Lama Country map published by Yintjingga Aboriginal Corporation"
+        />
+      </div>
+      <p class="small-note">
+        This is the official Lama Lama Country map image published by YAC. Pathfinder does not add or infer sensitive locations or unofficial visitor routes.
+      <div class="map-reference-note">
+        <strong>Reference only.</strong>
+        This map provides general geographic context for Lama Lama Country, but it is not detailed enough for the Pathfinder visitor-management system.
+        A more detailed, community-approved visitor and route map is still required to support trip planning, offline navigation and Ranger operations.
+      </div>
+
+      </p>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">OFFICIAL VISITOR RULES</span>
+          <h2>Camping requirements and things to keep in mind</h2>
+        </div>
+      </div>
+      <div class="rules-grid">
+        <ul>
+          <li>Camp only in designated areas and obtain a permit from the Lama Lama Ranger Base.</li>
+          <li>Dispose of rubbish at designated areas or take it with you when leaving.</li>
+          <li>Light fires only at designated areas in campgrounds.</li>
+          <li>No firearms, shooting or hunting.</li>
+          <li>Driving on restricted tracks or off-road is prohibited.</li>
+          <li>No access to Burkit, Stainer, Marpa and Pelican Islands.</li>
+          <li>Follow all Marine Park Guidelines, Zonings and Limits.</li>
+        </ul>
+        <ul>
+          <li>Rangers patrol regularly.</li>
+          <li>Stay away from rehabilitation sites.</li>
+          <li>Turtles nest on beaches — avoid barricaded areas and limit driving.</li>
+          <li>Limit driving on salt pans — they are important environmental areas.</li>
+          <li>Living areas are private property. Please respect this.</li>
+        </ul>
+      </div>
+      <div class="source-note">Source: YAC Visiting page.</div>
+    </section>
+
+    <section id="planSection" class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">PATHFINDER PROPOSED FEATURE · 1</span>
+          <h2>Plan a visit</h2>
+        </div>
+        <span class="small-note">Student prototype — not an existing YAC booking system.</span>
+      </div>
+      <form id="tripForm" class="form-grid">
+        <label>
+          Published visitor place
+          <select id="destination">
+            <option value="">Select a published place</option>
+            <option>Yintjingga (Port Stewart) — day visit</option>
+            <option>Warokutal (Safari Camp – Port Stewart)</option>
+            <option>Maramba (Silver Plains Station)</option>
+          </select>
+        </label>
+        <label>
+          Expected return
+          <input id="returnTime" type="time" />
+        </label>
+        <label>
+          Party size
+          <input id="partySize" type="number" min="1" max="50" placeholder="Enter party size" />
+        </label>
+        <label>
+          Vehicle
+          <input id="vehicle" type="text" placeholder="Enter vehicle details" />
+        </label>
+        <label class="full-span">
+          Emergency contact
+          <input id="emergencyContact" type="text" placeholder="Enter contact details" />
+        </label>
+        <label class="checkbox-row full-span">
+          <input id="rulesAccepted" type="checkbox" />
+          <span>I have read the published YAC visitor requirements shown above.</span>
+        </label>
+        <div class="full-span form-actions">
+          <button type="submit" class="primary-btn">Create local prototype trip</button>
+          <span id="formMessage" class="inline-message"></span>
+        </div>
+      </form>
+    </section>
+
+    <section id="tripPackSection" class="two-col">
+      <section class="card section-card">
+        <div class="section-heading">
+          <div>
+            <span class="kicker">PATHFINDER PROPOSED FEATURE · 2</span>
+            <h2>Offline Trip Pack</h2>
+          </div>
+          <span id="offlineReadyBadge" class="status-chip muted">NOT READY</span>
+        </div>
+
+        <div class="trip-summary">
+          <div><span>Destination</span><strong id="packDestination">Not available</strong></div>
+          <div><span>Trip reference</span><strong id="tripId">Not available</strong></div>
+          <div><span>Expected return</span><strong id="packReturn">Not available</strong></div>
+          <div><span>Last updated</span><strong id="lastUpdated">Not available</strong></div>
+        </div>
+
+        <div class="resource-placeholder">
+          <strong>Approved route map</strong>
+          <span>Not available</span>
+          <p>No official route-level visitor map was found on the YAC pages reviewed. The country map above is the only map used here.</p>
+        </div>
+
+        <div class="feature-list">
+          <div>✓ Official visitor rules cached</div>
+          <div>✓ Ranger Base contact cached</div>
+          <div>✓ Crocodile warning cached</div>
+          <div>✓ Check-in instructions cached</div>
+        </div>
+
+        <div class="resource-placeholder compact">
+          <strong>Offline route / country map image</strong>
+          <span>Not available</span>
+          <p>An approved local image file is still required if the map must work fully offline. The current country map is loaded from the YAC website.</p>
+        </div>
+
+        <div class="offline-test-panel">
+          <div>
+            <strong>PWA offline readiness</strong>
+            <span id="offlineTestResult">Not checked yet</span>
+          </div>
+          <button id="offlineTestBtn" class="secondary-btn" type="button">Check cached app files</button>
+        </div>
+
+        <button id="downloadPackBtn" class="primary-btn" disabled>Prepare offline Trip Pack</button>
+      </section>
+
+      <section class="card section-card">
+        <span class="kicker">PATHFINDER PROPOSED FEATURE · 3</span>
+        <h2>Ranger check-in record</h2>
+        <p>
+          YAC publicly states that all visitors should first check in at the Lama Lama Ranger Base at Port Stewart,
+          and visitors to Silver Plains can also check in at the Homestead.
+        </p>
+        <div class="resource-placeholder compact">
+          <strong>Satellite communicator assignment</strong>
+          <span>Not available</span>
+          <p>No public YAC source reviewed states that satellite communicators are currently issued to visitors. This remains a Pathfinder design proposal.</p>
+        </div>
+        <div class="checkin-panel">
+          <button id="checkinBtn" class="primary-btn" disabled>Record local prototype check-in</button>
+          <button id="checkoutBtn" class="secondary-btn" disabled>Record return</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">EMERGENCY INFORMATION</span>
+          <h2>What this prototype can show offline</h2>
+        </div>
+      </div>
+      <div class="emergency-grid">
+        <div><span>Current device coordinates</span><strong id="coords">Unavailable (device permission required)</strong></div>
+        <div><span>Official live emergency / hazard feed</span><strong>Not available</strong></div>
+        <div class="full-span emergency-callout">
+          Official published warning: Estuarine crocodiles inhabit all waters in Lama Lama Country.
+        </div>
+      </div>
+      <p class="small-note">
+        Pathfinder's separate satellite-SOS concept is a student proposal. No existing visitor satellite-device service was found on the YAC pages reviewed.
+      </p>
+    </section>
+  </section>
+
+  
+  <section id="rangerLockScreen" class="advanced-content app-view hidden">
+    <section class="card section-card ranger-lock-card">
+      <span class="kicker">PROTECTED STAFF AREA</span>
+      <h2>Ranger Workspace Login</h2>
+      <p>This student prototype uses a local passcode gate and Web Crypto hashing for demonstration.</p>
+      <div class="ranger-login-box">
+        <label>
+          Ranger passcode
+          <input id="rangerPasscodeInput" type="password" inputmode="numeric" autocomplete="off" placeholder="Enter passcode">
+        </label>
+        <button id="rangerLoginBtn" class="primary-btn" type="button">Unlock Ranger Mode</button>
+        <div id="rangerLoginMessage" class="small-note"></div>
+      </div>
+      <div class="workflow-disclaimer">
+        <strong>Prototype security only.</strong>
+        This is not equivalent to production authentication. A real system would require HTTPS, server-side accounts, strong authentication, role-based access control and secure audit logging.
+      </div>
+    </section>
+  </section>
+
+<section id="rangerApp" class="advanced-content app-view hidden">
+    <div class="hero-grid">
+      <section class="card hero-card">
+        <span class="kicker">PATHFINDER PROPOSED RANGER DASHBOARD</span>
+        <h2>Operational dashboard prototype</h2>
+        <p>
+          YAC states that its Rangers are responsible for tourism management and regularly patrol Lama Lama land and sea Country.
+          The dashboard below demonstrates a proposed digital workflow only.
+        </p>
+        <div class="source-note">Source: YAC Lama Lama Rangers page.</div>
+      </section>
+      <section class="card status-card">
+        <span class="kicker">PUBLIC LIVE VISITOR DATA</span>
+        <h3>Not available</h3>
+        <p>No public live check-in, due-soon or overdue visitor dataset was found on the YAC pages reviewed.</p>
+      </section>
+    </div>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">PATHFINDER PROPOSED FEATURE · TIMING LOGIC</span>
+          <h2>Due-soon and overdue settings</h2>
+          <div class="timing-settings">
+            <label>Due soon threshold
+              <select id="dueSoonThreshold">
+                <option value="15">15 minutes before return</option>
+                <option value="30" selected>30 minutes before return</option>
+                <option value="60">60 minutes before return</option>
+              </select>
+            </label>
+            <label>Overdue grace period
+              <select id="overdueGrace">
+                <option value="0">No grace period</option>
+                <option value="15" selected>15 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="60">60 minutes</option>
+              </select>
+            </label>
+            <button id="recalculateStatusBtn" class="primary-btn" type="button">Recalculate statuses</button>
+          </div>
+          <p class="small-note">Prototype settings only. Final timing thresholds must be defined and approved by YAC and Rangers.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">PATHFINDER PROPOSED FEATURE</span>
+          <h2>Visitor management dashboard</h2>
+        </div>
+        <div class="demo-actions">
+          <button id="demoModeBtn" class="primary-btn">Start Demo Mode</button>
+          <button id="clearLocalTripsBtn" class="secondary-btn">Clear prototype data</button>
+        </div>
+      </div>
+      <div id="demoBanner" class="demo-banner hidden">
+        DEMO MODE — all records below are fictional examples generated only to demonstrate the proposed workflow.
+      </div>
+      <p class="small-note">By default this table contains no visitor data. It shows either locally entered prototype trips or clearly labelled Demo Mode records.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Trip ID</th><th>Destination</th><th>Return</th><th>Status</th><th>Device</th><th>Party</th><th>Response</th></tr></thead>
+          <tbody id="tripTableBody"></tbody>
+        </table>
+        <div id="emptyTrips" class="empty-state">No local prototype trips yet.</div>
+      </div>
+    </section>
+
+    <section id="responsePanel" class="card section-card hidden">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">PATHFINDER PROPOSED FEATURE</span>
+          <h2>Ranger overdue response review</h2>
+        </div>
+        <button id="closeResponsePanelBtn" class="secondary-btn">Close</button>
+      </div>
+
+      <div class="workflow-disclaimer">
+        <strong>Prototype support only.</strong>
+        This panel does not represent an official YAC emergency procedure and does not automatically initiate search and rescue.
+      </div>
+
+      <div id="responseTripSummary" class="response-summary"></div>
+
+      <div class="response-checklist">
+        <label class="response-check">
+          <input id="reviewTripInfoCheck" type="checkbox">
+          <span><strong>Review trip information</strong><small>Destination, party, vehicle, expected return and any recorded device information.</small></span>
+        </label>
+
+        <label class="response-check">
+          <input id="contactAttemptCheck" type="checkbox">
+          <span><strong>Attempt available contact</strong><small>Use only communication methods that are actually available and approved.</small></span>
+        </label>
+
+        <label class="response-check">
+          <input id="confirmStillOverdueCheck" type="checkbox">
+          <span><strong>Confirm the trip remains unresolved</strong><small>Do not escalate based only on the website alert.</small></span>
+        </label>
+      </div>
+
+      <div class="response-actions">
+        <button id="markContactAttemptedBtn" class="secondary-btn">Record contact attempt</button>
+        <button id="markReturnedBtn" class="secondary-btn">Mark visitor returned</button>
+        <button id="followApprovedProcedureBtn" class="primary-btn">Proceed to Ranger-approved procedure</button>
+      </div>
+
+      <div id="responseActionMessage" class="response-action-message">
+        No response action recorded.
+      </div>
+    </section>
+
+    <section class="two-col">
+      <section class="card section-card">
+        <span class="kicker">FUTURE DEVELOPMENT</span>
+        <h2>Live route status publishing</h2>
+        <div class="resource-placeholder compact">
+          <strong>Current official route status</strong>
+          <span>Not available</span>
+          <p>No live YAC route-status feed was found.</p>
+        </div>
+        <label>Route / place<select id="routeSelect"><option value="">Select published place</option><option>Yintjingga (Port Stewart)</option><option>Warokutal (Safari Camp – Port Stewart)</option><option>Maramba (Silver Plains Station)</option></select></label>
+        <label>Status<select id="routeStatusSelect"><option value="">Not available</option><option value="Open">Open</option><option value="Caution">Caution</option><option value="Closed">Closed</option></select></label>
+        <label>Visitor message<textarea id="routeMessage" rows="4" placeholder="Ranger-approved message would appear here"></textarea></label>
+        <button id="publishRouteBtn" class="primary-btn">Save local prototype update</button>
+        <span id="routePublishMessage" class="inline-message"></span>
+      </section>
+
+      <section class="card section-card">
+        <span class="kicker">FUTURE DEVELOPMENT</span>
+        <h2>Live hazard update feed</h2>
+        <div class="resource-placeholder compact">
+          <strong>Official live hazard feed</strong>
+          <span>Not available</span>
+          <p>The YAC Visiting page provides standing visitor rules and a crocodile warning, but no live hazard feed was found.</p>
+        </div>
+        <label>Hazard title<input id="hazardTitle" type="text" placeholder="Enter Ranger-approved hazard title" /></label>
+        <label>Guidance<textarea id="hazardMessage" rows="4" placeholder="Enter Ranger-approved guidance"></textarea></label>
+        <button id="publishHazardBtn" class="primary-btn">Save local prototype hazard</button>
+        <div id="hazardFeed" class="hazard-feed"></div>
+      </section>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">PATHFINDER PROPOSED FEATURE · EMERGENCY WORKFLOW</span>
+          <h2>Overdue visitor response support</h2>
+        </div>
+        <span class="small-note">Student design — not an official Ranger emergency SOP.</span>
+      </div>
+
+      <div class="workflow-disclaimer">
+        <strong>Important:</strong>
+        No detailed public YAC Ranger procedure for overdue visitors was found in the sources reviewed.
+        Pathfinder therefore does not automate a rescue decision. It only organises information and prompts a Ranger review.
+      </div>
+
+      <div class="workflow-grid">
+        <div class="workflow-step">
+          <span class="step-number">1</span>
+          <div><strong>Expected return reached</strong><p>The trip reaches its recorded expected-return time.</p></div>
+        </div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">
+          <span class="step-number">2</span>
+          <div><strong>Dashboard flag</strong><p>Pathfinder marks the visit for Ranger review. Any grace period would require YAC/Ranger approval.</p></div>
+        </div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">
+          <span class="step-number">3</span>
+          <div><strong>Review trip information</strong><p>Destination, party size, vehicle, expected return, contact details and any proposed satellite-device record.</p></div>
+        </div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">
+          <span class="step-number">4</span>
+          <div><strong>Attempt available contact</strong><p>Ranger uses available approved communication methods. Pathfinder does not assume connectivity.</p></div>
+        </div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">
+          <span class="step-number">5</span>
+          <div><strong>Ranger decision</strong><p>If unresolved, follow the Ranger/YAC-approved emergency procedure when one is defined.</p></div>
+        </div>
+      </div>
+
+      <div class="responsibility-note">
+        Pathfinder supplies a trip record and alert. Rangers and emergency services remain responsible for operational decisions.
+      </div>
+    </section>
+
+    <section class="card section-card">
+      <span class="kicker">PATHFINDER PROPOSED FEATURE · AUDIT</span>
+      <h2>Prototype audit log</h2>
+      <button id="clearAuditBtn" class="secondary-btn" type="button">Clear local log</button>
+      <p class="small-note">Records local prototype actions only. Real deployment requires YAC-approved access, privacy and retention rules.</p>
+      <div id="auditLog" class="audit-log"></div>
+    </section>
+
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">PATHFINDER PROPOSED FEATURE · ROLE ACCESS</span>
+          <h2>Role-based access prototype</h2>
+        </div>
+        <span id="activeRoleBadge" class="status-chip open">RANGER</span>
+      </div>
+      <p>Use the role selector in the header to preview proposed permissions. This is not a real authentication system.</p>
+      <div id="roleAccessSummary" class="role-access-summary"></div>
+    </section>
+
+    <section class="card section-card">
+      <span class="kicker">OFFICIAL GOVERNANCE CONTEXT</span>
+      <h2>How Lama Lama Country is governed</h2>
+      <div class="governance-grid">
+        <div><strong>Lama Lama Land Trust</strong><span>Key representative group; land and Country management business is discussed through the Trust.</span></div>
+        <div><strong>Yintjingga Aboriginal Corporation</strong><span>Homelands-based not-for-profit organisation managing projects on behalf of Lama Lama People.</span></div>
+        <div><strong>Lama Lama Elders Group</strong><span>Eight Elders are nominated each year to guide the Board in decision-making and leadership.</span></div>
+        <div><strong>Joint management</strong><span>Lama Lama People jointly manage national parks with Queensland Parks and Wildlife Service under Indigenous Management Agreements.</span></div>
+      </div>
+      <div class="source-note">Sources: YAC Governance and National Parks – Joint Management pages.</div>
+    </section>
+  </section>
+
+  <section id="sourcesApp" class="advanced-content app-view hidden">
+    <section class="card section-card">
+      <div class="section-heading">
+        <div>
+          <span class="kicker">SOURCES / ABOUT</span>
+          <h2>What is official, proposed, or unavailable?</h2>
+        </div>
+        <button id="backFromSourcesBtn" class="secondary-btn">Back</button>
+      </div>
+      <p>
+        Pathfinder is a student prototype. It deliberately separates publicly sourced Lama Lama information
+        from proposed system functions and from information that is not publicly available.
+      </p>
+
+      <div class="source-category-grid">
+        <div class="source-category official-card">
+          <span class="legend official-label">OFFICIAL PUBLIC INFORMATION</span>
+          <h3>Used directly in the prototype</h3>
+          <ul>
+            <li>Visitor check-in requirement at the Lama Lama Ranger Base.</li>
+            <li>Ranger Base opening hours and public contact number.</li>
+            <li>Published campgrounds and visitor activities.</li>
+            <li>Published visitor rules and crocodile warning.</li>
+            <li>Public Lama Lama Country map.</li>
+            <li>Public YAC governance and Ranger-program descriptions.</li>
+          </ul>
+        </div>
+
+        <div class="source-category proposed-card">
+          <span class="legend proposed-label">PATHFINDER PROPOSED FEATURE</span>
+          <h3>Designed by the student team</h3>
+          <ul>
+            <li>PWA Offline Trip Pack.</li>
+            <li>Digital trip planning record.</li>
+            <li>Ranger dashboard and overdue workflow.</li>
+            <li>Route-status publishing workflow.</li>
+            <li>Hazard publishing workflow.</li>
+            <li>Optional satellite communicator integration.</li>
+          </ul>
+        </div>
+
+        <div class="source-category missing-card">
+          <span class="legend missing-label">Not available</span>
+          <h3>Not found in the public sources reviewed</h3>
+          <ul>
+            <li>Live route Open / Caution / Closed feed.</li>
+            <li>Live hazard feed.</li>
+            <li>Live visitor check-in / overdue dataset.</li>
+            <li>Official route-level visitor map suitable for Pathfinder.</li>
+            <li>Public evidence that satellite communicators are currently issued to visitors.</li>
+            <li>Official Ranger emergency-response procedure for overdue visitors. Pathfinder currently uses a clearly labelled proposed support workflow instead.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section-card">
+      <span class="kicker">PUBLIC SOURCES USED</span>
+      <h2>Yintjingga Aboriginal Corporation</h2>
+      <div class="source-list">
+        <a href="https://www.lamalama.org.au/" target="_blank" rel="noopener"><strong>Welcome to Lama Lama Country</strong><span>General community context</span></a>
+        <a href="https://www.lamalama.org.au/visiting/" target="_blank" rel="noopener"><strong>Visiting Lama Lama Country</strong><span>Check-in, campgrounds, activities, visitor rules and crocodile warning</span></a>
+        <a href="https://www.lamalama.org.au/country/" target="_blank" rel="noopener"><strong>Aakurru / Country</strong><span>Public Lama Lama Country map</span></a>
+        <a href="assets/Lama-Lama-Map-2014-1.jpg" target="_blank" rel="noopener"><strong>Official map image file</strong><span>Lama-Lama-Map-2014-1.jpg</span></a>
+        <a href="https://www.lamalama.org.au/wp-content/uploads/2016/08/Visiting-banner.png" target="_blank" rel="noopener"><strong>Official Visiting banner image file</strong><span>Visiting-banner.png</span></a>
+        <a href="https://www.lamalama.org.au/wp-content/uploads/2016/08/Visiting-banner-3-Photo-Annette-Ruzicka.png" target="_blank" rel="noopener"><strong>Official road-access photograph</strong><span>Visiting-banner-3-Photo-Annette-Ruzicka.png · credited by YAC to Annette Ruzicka</span></a>
+        <a href="https://www.lamalama.org.au/governance/" target="_blank" rel="noopener"><strong>Governance</strong><span>Land Trust, YAC and Elders governance context</span></a>
+        <a href="https://www.lamalama.org.au/lama-lama-rangers/" target="_blank" rel="noopener"><strong>Lama Lama Rangers</strong><span>Ranger program and tourism-management context</span></a>
+        <a href="https://www.lamalama.org.au/national-parks-joint-management/" target="_blank" rel="noopener"><strong>National Parks – Joint Management</strong><span>Joint-management context</span></a>
+      </div>
+    </section>
+
+    <section class="card section-card">
+      <span class="kicker">REQUIRED BEFORE REAL DEPLOYMENT</span>
+      <h2>Known resource and governance gaps</h2>
+      <div class="deployment-grid">
+        <div class="deployment-item"><strong>Detailed visitor / route map</strong><span class="legend missing-label">Not available</span><p>A community-approved route-level map is still required.</p></div>
+        <div class="deployment-item"><strong>Official overdue / emergency procedure</strong><span class="legend missing-label">Not available</span><p>Pathfinder stops at Ranger review and hand-off.</p></div>
+        <div class="deployment-item"><strong>Satellite communicator policy</strong><span class="legend proposed-label">PROPOSED DESIGN</span><p>Not confirmed as an existing YAC practice in public sources.</p></div>
+        <div class="deployment-item"><strong>Live route status source</strong><span class="legend proposed-label">FUTURE DEVELOPMENT</span><p>A trusted operational data source is required.</p></div>
+        <div class="deployment-item"><strong>Live hazard data source</strong><span class="legend proposed-label">FUTURE DEVELOPMENT</span><p>A Ranger-approved or authoritative hazard source is required.</p></div>
+        <div class="deployment-item"><strong>Privacy and retention rules</strong><span class="legend missing-label">REQUIRES APPROVAL</span><p>Final rules require YAC approval and appropriate privacy/legal review.</p></div>
+      </div>
+    </section>
+
+    <section class="card section-card">
+      <span class="kicker">TECHNOLOGY SOURCES</span>
+      <h2>Supporting the proposed design</h2>
+      <div class="source-list">
+        <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noopener"><strong>MDN · Progressive Web Apps</strong><span>PWA architecture</span></a>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation" target="_blank" rel="noopener"><strong>MDN · Offline and background operation</strong><span>Offline caching and service-worker behaviour</span></a>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API" target="_blank" rel="noopener"><strong>MDN · Geolocation API</strong><span>Device location with user permission</span></a>
+        <a href="https://www.zoleo.com/en-au/satellite-communicator" target="_blank" rel="noopener"><strong>ZOLEO Satellite Communicator</strong><span>Example independent off-grid communication device</span></a>
+      </div>
+    </section>
+  </section>
+
+</main>
+
+<footer>
+  <div>Pathfinder · 31265 CITP student prototype</div>
+  <div class="footer-links">
+    <a href="https://www.lamalama.org.au/" target="_blank" rel="noopener">YAC Home</a>
+    <a href="https://www.lamalama.org.au/visiting/" target="_blank" rel="noopener">Visiting</a>
+    <a href="https://www.lamalama.org.au/country/" target="_blank" rel="noopener">Aakurru map</a>
+    <a href="https://www.lamalama.org.au/governance/" target="_blank" rel="noopener">Governance</a>
+    <a href="https://www.lamalama.org.au/lama-lama-rangers/" target="_blank" rel="noopener">Rangers</a>
+  </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
